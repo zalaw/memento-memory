@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Flex, Stack } from "@mantine/core";
+import { useGame } from "./contexts/GameContext";
+import { DifficultyPicker } from "./components/DifficultyPicker";
+import { GameStarted } from "./components/GameStarted";
+import { GameFinished } from "./components/GameFinished";
+import { GameGrid } from "./components/GameGrid";
 
 function App() {
+  const { gameStatus } = useGame();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Flex align={"center"} justify={"center"} mih={"100%"} p={20}>
+      <Stack miw={300} maw={600} w={"100%"} spacing={"lg"}>
+        {gameStatus === "not-started" ? (
+          <DifficultyPicker />
+        ) : gameStatus === "started" ? (
+          <GameStarted />
+        ) : (
+          <GameFinished />
+        )}
+        <GameGrid />
+      </Stack>
+    </Flex>
   );
 }
 
