@@ -8,7 +8,7 @@ export function GameStarted() {
   return (
     <Flex align={"center"} justify={"space-between"}>
       <Stopwatch />
-      <Button color="red" onClick={end}>
+      <Button size={"xs"} color="red" onClick={end}>
         End
       </Button>
     </Flex>

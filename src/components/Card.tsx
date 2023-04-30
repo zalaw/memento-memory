@@ -22,12 +22,12 @@ const useStyles = createStyles(() => ({
 }));
 
 export function Card({ card }: CellProps) {
-  const { gameStatus, flip } = useGame();
+  const { flip } = useGame();
   const { classes } = useStyles();
 
   return (
     <MantineCard
-      className={`${gameStatus !== "not-started" ? classes.cell : ""} ${card?.found ? "cell-found" : ""}`}
+      className={`${classes.cell} ${card?.found ? "cell-found" : ""}`}
       style={{ aspectRatio: 1 / 1 }}
       onClick={() => flip(card)}
     >

@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useState, useEffect, useRef } from "react";
 import { ICard, ColsMap } from "../interfaces";
-import { generateCards, shuffle } from "../utils";
+import { generateCards, generateValues, shuffle } from "../utils";
 
 interface GameProviderProps {
   children: ReactNode;
@@ -9,11 +9,13 @@ interface GameProviderProps {
 interface GameContextInterface {
   gameStatus: "not-started" | "started" | "finished";
   length: number;
+  values: "numbers" | "letters" | "emojis";
   cards: ICard[];
   colsMap: ColsMap;
   prev: ICard | undefined;
   secondsPassed: number | null;
-  setDifficulty: (val: number) => void;
+  setLength: (val: number) => void;
+  setValues: (val: "numbers" | "letters" | "emojis") => void;
   start: () => void;
   end: () => void;
   finish: () => void;
@@ -23,11 +25,13 @@ interface GameContextInterface {
 const defaultState = {
   gameStatus: "not-started",
   length: 8,
+  values: "numbers",
   cards: [],
   colsMap: { 8: { cols: 4, visible: 500 } },
   prev: undefined,
   secondsPassed: null,
-  setDifficulty: () => {},
+  setLength: () => {},
+  setValues: () => {},
   start: () => {},
   end: () => {},
   flip: () => {},
@@ -46,8 +50,11 @@ export function GameProvider({ children }: GameProviderProps) {
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [finishedAt, setFinishedAt] = useState<number | null>(null);
   const [length, setLength] = useState<number>(defaultState.length);
+  const [values, setValues] = useState(defaultState.values);
   const [cards, setCards] = useState<ICard[]>(defaultState.cards);
   const [prev, setPrev] = useState<ICard | undefined>(defaultState.prev);
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const secondsPassed: number | null = finishedAt ? (finishedAt - startedAt!) / 1000 : null;
   const colsMap: ColsMap = {
@@ -58,19 +65,25 @@ export function GameProvider({ children }: GameProviderProps) {
     48: { cols: 6, visible: 3000 },
   };
 
-  const setDifficulty = (val: number) => {
-    setLength(val);
-  };
+  useEffect(() => {
+    if (gameStatus !== "not-started") return;
+
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+
+    const generatedCards = generateCards(length, generateValues(values));
+    setCards(generatedCards);
+  }, [gameStatus, length, values]);
 
   const start = () => {
-    const generatedCards = generateCards(length);
-    const shuffledCards = shuffle(generatedCards);
+    const shuffledCards = shuffle(cards);
 
     setGameStatus("started");
     setCards(shuffledCards);
     setStartedAt(Date.now());
 
-    setTimeout(() => {
+    if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(() => {
       setCards(shuffledCards.map(card => ({ ...card, show: false })));
     }, colsMap[length].visible);
   };
@@ -78,7 +91,6 @@ export function GameProvider({ children }: GameProviderProps) {
   const end = () => {
     setGameStatus("not-started");
     setStartedAt(null);
-    setCards([]);
     setPrev(undefined);
   };
 
@@ -91,8 +103,6 @@ export function GameProvider({ children }: GameProviderProps) {
     if (gameStatus !== "started" || !card) return;
     if (card.found || prev?.id === card.id) return;
     if (cards.filter(card => card.show).length > 1) return;
-
-    console.log("yooo");
 
     setCards(cards.map(c => (c.id === card.id ? { ...c, show: true } : c)));
 
@@ -118,11 +128,13 @@ export function GameProvider({ children }: GameProviderProps) {
   const value: GameContextInterface = {
     gameStatus,
     length,
+    values,
     cards,
     colsMap,
     prev,
     secondsPassed,
-    setDifficulty,
+    setLength,
+    setValues,
     start,
     end,
     flip,

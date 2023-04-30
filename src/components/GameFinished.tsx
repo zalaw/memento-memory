@@ -7,8 +7,10 @@ export function GameFinished() {
   return (
     <Card>
       <Flex align={"center"} justify={"space-between"}>
-        <Text>Completed in {secondsPassed} seconds</Text>
-        <Button onClick={end}>Play again</Button>
+        <Text size={"sm"}>Completed in {secondsPassed} seconds</Text>
+        <Button size="xs" onClick={end}>
+          Play again
+        </Button>
       </Flex>
     </Card>
   );
