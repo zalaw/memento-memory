@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useContext, useState, useEffect, useRef } from "react";
-import { ICard, ColsMap } from "../interfaces";
-import { generateCards, generateValues, shuffle } from "../utils";
+import { ReactNode, createContext, useContext, useState, useLayoutEffect, useRef } from "react";
+import { ICard } from "../interfaces";
+import { difficulties, generateCards, shuffle } from "../utils";
 
 interface GameProviderProps {
   children: ReactNode;
@@ -11,7 +11,6 @@ interface GameContextInterface {
   length: number;
   values: "numbers" | "letters" | "emojis";
   cards: ICard[];
-  colsMap: ColsMap;
   prev: ICard | undefined;
   secondsPassed: number | null;
   setLength: (val: number) => void;
@@ -24,10 +23,9 @@ interface GameContextInterface {
 
 const defaultState = {
   gameStatus: "not-started",
-  length: 8,
+  length: Number(Object.keys(difficulties)[0]),
   values: "numbers",
   cards: [],
-  colsMap: { 8: { cols: 4, visible: 500 } },
   prev: undefined,
   secondsPassed: null,
   setLength: () => {},
@@ -57,20 +55,13 @@ export function GameProvider({ children }: GameProviderProps) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const secondsPassed: number | null = finishedAt ? (finishedAt - startedAt!) / 1000 : null;
-  const colsMap: ColsMap = {
-    8: { cols: 4, visible: 1000 },
-    16: { cols: 4, visible: 1500 },
-    24: { cols: 6, visible: 2000 },
-    36: { cols: 6, visible: 2500 },
-    48: { cols: 6, visible: 3000 },
-  };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (gameStatus !== "not-started") return;
 
     if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
 
-    const generatedCards = generateCards(length, generateValues(values));
+    const generatedCards = generateCards(length, values);
     setCards(generatedCards);
   }, [gameStatus, length, values]);
 
@@ -85,7 +76,7 @@ export function GameProvider({ children }: GameProviderProps) {
 
     timeoutRef.current = setTimeout(() => {
       setCards(shuffledCards.map(card => ({ ...card, show: false })));
-    }, colsMap[length].visible);
+    }, difficulties[length].visibleFor);
   };
 
   const end = () => {
@@ -130,7 +121,6 @@ export function GameProvider({ children }: GameProviderProps) {
     length,
     values,
     cards,
-    colsMap,
     prev,
     secondsPassed,
     setLength,

@@ -1,11 +1,81 @@
-import { ICard } from "../interfaces";
+import { DifficultyLevels, ICard, IValues } from "../interfaces";
 
-export const generateCards = (length: number, values?: string[]): ICard[] => {
+export const difficulties: DifficultyLevels = {
+  6: {
+    label: "Beginner",
+    cols: 3,
+    visibleFor: 1000,
+  },
+  8: {
+    label: "Easy",
+    cols: 4,
+    visibleFor: 1500,
+  },
+  12: {
+    label: "Medium",
+    cols: 4,
+    visibleFor: 2000,
+  },
+  20: {
+    label: "Challenging",
+    cols: 5,
+    visibleFor: 2500,
+  },
+  30: {
+    label: "Hard",
+    cols: 6,
+    visibleFor: 3000,
+  },
+  42: {
+    label: "Expert",
+    cols: 6,
+    visibleFor: 3500,
+  },
+};
+
+export const values: IValues = {
+  numbers: {
+    label: "Numbers",
+    values: Array.from({ length: 24 }, (_, i) => (i + 1).toString()),
+  },
+  letters: {
+    label: "Letters",
+    values: Array.from({ length: 24 }, (_, i) => String.fromCharCode(i + 65)),
+  },
+  emojis: {
+    label: "Emojis",
+    values: [
+      "😀",
+      "🤣",
+      "😎",
+      "😍",
+      "🤔",
+      "😥",
+      "🙃",
+      "🤑",
+      "😨",
+      "😭",
+      "🤯",
+      "😱",
+      "🥵",
+      "🥶",
+      "🤪",
+      "😡",
+      "😷",
+      "🤢",
+      "🤠",
+      "🤡",
+      "💀",
+    ],
+  },
+};
+
+export const generateCards = (length: number, valuesParan: string): ICard[] => {
   const result: ICard[] = [];
 
   for (let i = 0; i < length / 2; i++) {
-    result.push({ id: crypto.randomUUID(), show: true, found: false, value: values?.[i] || (i + 1).toString() });
-    result.push({ id: crypto.randomUUID(), show: true, found: false, value: values?.[i] || (i + 1).toString() });
+    result.push({ id: crypto.randomUUID(), show: true, found: false, value: values[valuesParan].values[i] });
+    result.push({ id: crypto.randomUUID(), show: true, found: false, value: values[valuesParan].values[i] });
   }
 
   return result;
@@ -22,47 +92,4 @@ export const shuffle = <T>(array: T[]): T[] => {
   }
 
   return result;
-};
-
-const generateValuesAsNumbers = () => {
-  return Array.from({ length: 24 }, (_, i) => (i + 1).toString());
-};
-
-const generateValuesAsLetters = () => {
-  return Array.from({ length: 24 }, (_, i) => String.fromCharCode(i + 65));
-};
-
-const generateValuesAsEmojis = () => {
-  return [
-    "😀",
-    "🤣",
-    "😎",
-    "😍",
-    "🤔",
-    "😥",
-    "🙃",
-    "🤑",
-    "😨",
-    "😭",
-    "🤯",
-    "😱",
-    "🥵",
-    "🥶",
-    "🤪",
-    "😡",
-    "😷",
-    "🤢",
-    "🤠",
-    "🤡",
-    "💀",
-    "👽",
-    "💩",
-    "👻",
-  ];
-};
-
-export const generateValues = (type: string) => {
-  if (type === "numbers") return generateValuesAsNumbers();
-  else if (type === "letters") return generateValuesAsLetters();
-  else return generateValuesAsEmojis();
 };

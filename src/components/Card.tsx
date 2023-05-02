@@ -32,7 +32,7 @@ export function Card({ card }: CellProps) {
       onClick={() => flip(card)}
     >
       {(card?.show || card?.found) && (
-        <Text fw={700} fz={"200%"}>
+        <Text className="card-text" fw={700} fz={"200%"}>
           {card?.value}
         </Text>
       )}

@@ -1,5 +1,6 @@
 import { Flex, Select, Button } from "@mantine/core";
 import { useGame } from "../contexts/GameContext";
+import { difficulties } from "../utils";
 
 export function GameNotStarted() {
   const { length, values, setLength, setValues, start } = useGame();
@@ -7,22 +8,19 @@ export function GameNotStarted() {
   return (
     <Flex align="end" gap={"sm"}>
       <Select
-        size={"xs"}
+        className="text"
         w={"100%"}
         label="Select difficulty"
         value={length.toString()}
         onChange={e => setLength(Number(e))}
-        data={[
-          { value: "8", label: "😄 Easy" }, // 2x4
-          { value: "16", label: "😊 Medium" }, // 4x4
-          { value: "24", label: "😳 Hard" }, // 4x6
-          { value: "36", label: "👽 Insane" }, // 6x6
-          { value: "48", label: "💀 Babajee" }, // 8x6
-        ]}
+        data={Object.entries(difficulties).map(([value, { label }]) => ({
+          value,
+          label,
+        }))}
       />
 
       <Select
-        size={"xs"}
+        className="text"
         w={"100%"}
         label="Values"
         value={values}
@@ -30,10 +28,10 @@ export function GameNotStarted() {
         data={[
           { value: "numbers", label: "Numbers" },
           { value: "letters", label: "Letters" },
-          { value: "emojis", label: "Emojis" }, // 4x6
+          { value: "emojis", label: "Emojis" },
         ]}
       />
-      <Button size={"xs"} onClick={start}>
+      <Button className="text" onClick={start}>
         Start
       </Button>
     </Flex>

@@ -6,13 +6,13 @@ export function Layout() {
   return (
     <AppShell
       header={
-        <Header height={63} py="xs" px={"md"} w={"100%"}>
+        <Header height={70} py="xs" px={"md"} w={"100%"}>
           <Flex align={"center"} justify={"space-between"}>
             <Link to="/">
               <Logo />
             </Link>
 
-            <Button size={"xs"} variant="subtle" component={Link} to={"/changelog"}>
+            <Button className="text" variant="subtle" component={Link} to={"/changelog"}>
               Changelog
             </Button>
           </Flex>

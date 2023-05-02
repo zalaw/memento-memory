@@ -5,9 +5,17 @@ export interface ICard {
   value: string;
 }
 
-export interface ColsMap {
+export interface DifficultyLevels {
   [key: number]: {
+    label: string;
     cols: number;
-    visible: number;
+    visibleFor: number;
+  };
+}
+
+export interface IValues {
+  [key: string]: {
+    label: string;
+    values: string[];
   };
 }
