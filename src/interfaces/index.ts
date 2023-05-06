@@ -1,6 +1,6 @@
 export interface ICard {
   id: string;
-  show: boolean;
+  flipped: boolean;
   found: boolean;
   value: string;
 }

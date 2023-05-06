@@ -74,8 +74,8 @@ export const generateCards = (length: number, valuesParan: string): ICard[] => {
   const result: ICard[] = [];
 
   for (let i = 0; i < length / 2; i++) {
-    result.push({ id: crypto.randomUUID(), show: true, found: false, value: values[valuesParan].values[i] });
-    result.push({ id: crypto.randomUUID(), show: true, found: false, value: values[valuesParan].values[i] });
+    result.push({ id: crypto.randomUUID(), flipped: true, found: false, value: values[valuesParan].values[i] });
+    result.push({ id: crypto.randomUUID(), flipped: true, found: false, value: values[valuesParan].values[i] });
   }
 
   return result;

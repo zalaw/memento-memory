@@ -7,6 +7,11 @@ export function Changelog() {
 
   const data = [
     {
+      title: "v0.3.0",
+      lis: ["Added flip effect"],
+      date: "06/05/2023",
+    },
+    {
       title: "v0.2.1",
       lis: ["Fixed flickering effect when grid updates", "Code refactoring"],
       date: "02/05/2023",

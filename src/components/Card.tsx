@@ -1,41 +1,24 @@
-import { Card as MantineCard, Text, createStyles } from "@mantine/core";
+import { Text } from "@mantine/core";
 import { useGame } from "../contexts/GameContext";
 import { ICard } from "../interfaces";
 
-interface CellProps {
+interface CardProps {
   card?: ICard | undefined;
 }
 
-const useStyles = createStyles(() => ({
-  cell: {
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    userSelect: "none",
-
-    "&:hover": {
-      filter: "brightness(1.25)",
-      transform: "rotateY(0)",
-    },
-  },
-}));
-
-export function Card({ card }: CellProps) {
+export function Card({ card }: CardProps) {
   const { flip } = useGame();
-  const { classes } = useStyles();
 
   return (
-    <MantineCard
-      className={`${classes.cell} ${card?.found ? "cell-found" : ""}`}
-      style={{ aspectRatio: 1 / 1 }}
-      onClick={() => flip(card)}
-    >
-      {(card?.show || card?.found) && (
-        <Text className="card-text" fw={700} fz={"200%"}>
-          {card?.value}
-        </Text>
-      )}
-    </MantineCard>
+    <div className="card-main-container" onClick={() => flip(card)}>
+      <div className={`card ${card?.flipped || card?.found ? "card-flipped" : ""}`}>
+        <div className={`card-front ${card?.found ? "card-found" : ""}`}>
+          <Text className="card-text" fw={700} fz={"200%"}>
+            {card?.value}
+          </Text>
+        </div>
+        <div className="card-back"></div>
+      </div>
+    </div>
   );
 }

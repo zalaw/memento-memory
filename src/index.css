@@ -23,7 +23,7 @@ body {
   height: 100%;
 }
 
-.cell-found {
+.card-found {
   background-color: #096144;
 }
 
@@ -37,6 +37,45 @@ body {
 .mantine-1pcamc8 {
   height: auto;
   max-height: auto;
+}
+
+.card-main-container {
+  aspect-ratio: 1 / 1;
+  position: relative;
+  cursor: pointer;
+}
+
+.card-main-container:hover {
+  filter: brightness(1.25);
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+  background-color: #25262b;
+  color: #c1c2c5;
+}
+
+.card-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
 }
 
 @media screen and (max-width: 425px) {

@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState, useLayoutEffect, useRef } from "react";
+import { ReactNode, createContext, useContext, useState, useLayoutEffect, useRef, useEffect } from "react";
 import { ICard } from "../interfaces";
 import { difficulties, generateCards, shuffle } from "../utils";
 
@@ -54,7 +54,11 @@ export function GameProvider({ children }: GameProviderProps) {
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const secondsPassed: number | null = finishedAt ? (finishedAt - startedAt!) / 1000 : null;
+  const secondsPassed: number | null = finishedAt ? Number(((finishedAt - startedAt!) / 1000).toFixed(2)) : null;
+
+  useEffect(() => {
+    console.log("localstorage");
+  }, []);
 
   useLayoutEffect(() => {
     if (gameStatus !== "not-started") return;
@@ -75,7 +79,7 @@ export function GameProvider({ children }: GameProviderProps) {
     if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
-      setCards(shuffledCards.map(card => ({ ...card, show: false })));
+      setCards(shuffledCards.map(card => ({ ...card, flipped: false })));
     }, difficulties[length].visibleFor);
   };
 
@@ -93,16 +97,16 @@ export function GameProvider({ children }: GameProviderProps) {
   const flip = (card: ICard | undefined) => {
     if (gameStatus !== "started" || !card) return;
     if (card.found || prev?.id === card.id) return;
-    if (cards.filter(card => card.show).length > 1) return;
+    if (cards.filter(card => card.flipped).length > 1) return;
 
-    setCards(cards.map(c => (c.id === card.id ? { ...c, show: true } : c)));
+    setCards(cards.map(c => (c.id === card.id ? { ...c, flipped: true } : c)));
 
     if (prev) {
       if (prev.value === card.value) {
-        setCards(cards.map(c => (c.id === prev.id || c.id === card.id ? { ...c, found: true, show: false } : c)));
+        setCards(cards.map(c => (c.id === prev.id || c.id === card.id ? { ...c, found: true, flipped: false } : c)));
       } else {
         setTimeout(() => {
-          setCards(cards.map(c => ({ ...c, show: false })));
+          setCards(cards.map(c => ({ ...c, flipped: false })));
         }, 500);
       }
 
