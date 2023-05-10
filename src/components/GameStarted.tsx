@@ -6,7 +6,7 @@ export function GameStarted() {
   const { end } = useGame();
 
   return (
-    <Flex align={"center"} justify={"space-between"}>
+    <Flex h={61} align={"end"} justify={"space-between"}>
       <Stopwatch />
       <Button className="text" color="red" onClick={end}>
         End

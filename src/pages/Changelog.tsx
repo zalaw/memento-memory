@@ -1,11 +1,16 @@
 import { useEffect } from "react";
-import { Timeline, Text, Stack } from "@mantine/core";
+import { Timeline, Text, Stack, Title } from "@mantine/core";
 import { useGame } from "../contexts/GameContext";
 
 export function Changelog() {
   const { end } = useGame();
 
   const data = [
+    {
+      title: "v0.4.0",
+      lis: ["Added stats"],
+      date: "10/05/2023",
+    },
     {
       title: "v0.3.0",
       lis: ["Added flip effect"],
@@ -34,23 +39,26 @@ export function Changelog() {
   }, []);
 
   return (
-    <Timeline active={100} bulletSize={20} lineWidth={3}>
-      {data.map((item, index) => (
-        <Timeline.Item key={index} title={item.title} lineVariant="dashed">
-          <Stack mt={20} pb={20}>
-            <Text color="dimmed" size="md">
-              <ul className="list text">
-                {item.lis.map((li, idx) => (
-                  <li key={`li-${idx}`}>{li}</li>
-                ))}
-              </ul>
-            </Text>
-            <Text className="text" color="dimmed" size="sm">
-              {item.date}
-            </Text>
-          </Stack>
-        </Timeline.Item>
-      ))}
-    </Timeline>
+    <Stack>
+      <Title className="text">Changelog</Title>
+      <Timeline active={100} bulletSize={20} lineWidth={3}>
+        {data.map((item, index) => (
+          <Timeline.Item key={index} title={item.title} lineVariant="dashed">
+            <Stack mt={20} pb={20}>
+              <Text color="dimmed" size="md">
+                <ul className="list text">
+                  {item.lis.map((li, idx) => (
+                    <li key={`li-${idx}`}>{li}</li>
+                  ))}
+                </ul>
+              </Text>
+              <Text className="text" color="dimmed" size="sm">
+                {item.date}
+              </Text>
+            </Stack>
+          </Timeline.Item>
+        ))}
+      </Timeline>
+    </Stack>
   );
 }

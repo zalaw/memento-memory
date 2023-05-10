@@ -12,9 +12,15 @@ export function Layout() {
               <Logo />
             </Link>
 
-            <Button className="text" variant="subtle" component={Link} to={"/changelog"}>
-              Changelog
-            </Button>
+            <div>
+              <Button className="text" variant="subtle" component={Link} to={"/stats"}>
+                Stats
+              </Button>
+
+              <Button className="text" variant="subtle" component={Link} to={"/changelog"}>
+                Changelog
+              </Button>
+            </div>
           </Flex>
         </Header>
       }

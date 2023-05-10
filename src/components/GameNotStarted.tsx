@@ -1,6 +1,6 @@
 import { Flex, Select, Button } from "@mantine/core";
-import { useGame } from "../contexts/GameContext";
 import { difficulties } from "../utils";
+import { useGame } from "../contexts/GameContext";
 
 export function GameNotStarted() {
   const { length, values, setLength, setValues, start } = useGame();

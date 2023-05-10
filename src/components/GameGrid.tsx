@@ -1,7 +1,7 @@
 import { SimpleGrid } from "@mantine/core";
+import { difficulties } from "../utils";
 import { useGame } from "../contexts/GameContext";
 import { Card } from "./Card";
-import { difficulties } from "../utils";
 
 export function GameGrid() {
   const { cards, length } = useGame();

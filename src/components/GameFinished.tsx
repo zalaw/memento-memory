@@ -10,7 +10,7 @@ export function GameFinished() {
         <Text className="text" size={"sm"}>
           Completed in {secondsPassed} seconds
         </Text>
-        <Button className="text" size="xs" onClick={end}>
+        <Button className="text" onClick={end}>
           Play again
         </Button>
       </Flex>

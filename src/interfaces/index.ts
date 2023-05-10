@@ -1,3 +1,7 @@
+export interface IStats {
+  [key: number]: number[];
+}
+
 export interface ICard {
   id: string;
   flipped: boolean;
