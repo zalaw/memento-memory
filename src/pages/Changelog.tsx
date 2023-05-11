@@ -1,11 +1,12 @@
-import { useEffect } from "react";
 import { Timeline, Text, Stack, Title } from "@mantine/core";
-import { useGame } from "../contexts/GameContext";
 
 export function Changelog() {
-  const { end } = useGame();
-
   const data = [
+    {
+      title: "v0.4.1",
+      lis: ["Added not found page", "Bug fixes", "Improved text readability"],
+      date: "11/05/2023",
+    },
     {
       title: "v0.4.0",
       lis: ["Added stats"],
@@ -33,14 +34,9 @@ export function Changelog() {
     },
   ];
 
-  useEffect(() => {
-    end();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Stack>
-      <Title className="text">Changelog</Title>
+      <Title className="title-text">Changelog</Title>
       <Timeline active={100} bulletSize={20} lineWidth={3}>
         {data.map((item, index) => (
           <Timeline.Item key={index} title={item.title} lineVariant="dashed">

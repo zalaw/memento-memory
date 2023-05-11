@@ -28,8 +28,8 @@ export function Layout() {
         main: { backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0] },
       })}
     >
-      <Container size={600} p={0}>
-        <Stack spacing={"sm"}>
+      <Container h={"100%"} size={600} p={0}>
+        <Stack h={"100%"} spacing={"sm"}>
           <Outlet />
         </Stack>
       </Container>

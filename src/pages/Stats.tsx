@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Box, Button, Card, Divider, Flex, Grid, Modal, Stack, Text, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FaTrophy } from "react-icons/fa";
@@ -8,7 +7,7 @@ import { difficulties } from "../utils";
 export function Stats() {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const { end, resetStats, stats } = useGame();
+  const { resetStats, stats } = useGame();
 
   const tropyColors = ["#ffd700", "#c0c0c0", "#cd7f32"];
   const topFivePlaceholder = Array.from({ length: 5 });
@@ -18,16 +17,11 @@ export function Stats() {
     close();
   };
 
-  useEffect(() => {
-    end();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Stack>
       <Modal opened={opened} onClose={close} withCloseButton={false} centered>
         <Stack p="lg">
-          <Title order={3} className="text">
+          <Title order={3} className="title-text">
             Are you sure you want to reset the stats?
           </Title>
           <Flex gap={"md"}>
@@ -42,7 +36,7 @@ export function Stats() {
       </Modal>
 
       <Flex align={"center"} justify={"space-between"}>
-        <Title className="text">Stats</Title>
+        <Title className="title-text">Stats</Title>
         <Button className="text" color="red" onClick={open}>
           Reset
         </Button>
@@ -51,7 +45,7 @@ export function Stats() {
         {Object.entries(difficulties).map(([value, { label }]) => (
           <Grid.Col key={value} miw={150} span={4}>
             <Card>
-              <Title className="text" order={4} mb={"sm"}>
+              <Title className="title-text" order={4} mb={"sm"}>
                 {label}
               </Title>
 

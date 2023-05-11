@@ -87,6 +87,10 @@ body {
     font-size: 0.75rem;
   }
 
+  .title-text {
+    font-size: 1.25rem;
+  }
+
   .card-text {
     font-size: 1.5rem;
   }
